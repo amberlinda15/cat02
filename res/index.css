@@ -30,6 +30,7 @@ html,body{
 .input_field_cont > input{
     width: 100%;
     padding: 10px;
+    text-transform: capitalize;
 }
 
 .input_field_cont > label:nth-child(1){
