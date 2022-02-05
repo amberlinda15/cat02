@@ -11,14 +11,14 @@
         <div class="main_container">
             <h1 class="main_head">Gateways registration form</h1>
             <div class="form_cont">
-                <form>
+                <form onsubmit="submitFormHandler()" action="./index.html" id="reg-form">
                     <div class="form_flex">
                         <div class="left_cont">
-                            <div class="input_field_cont">
+                            <div class="input_field_cont" >
                                 <label>Name</label>
-                                <input type="text" name="name" required/>
+                                <input type="text" name="name" onkeypress="lockDigitKeyHandler(event)" required/>
                             </div>
-                            <div class="input_field_cont">
+                            <div class="input_field_cont" id="email-cont">
                                 <label>Email</label>
                                 <input type="email" name="email" required/>
                             </div>
@@ -43,11 +43,11 @@
                             </div>
                             <div class="input_field_cont">
                                 <label>age</label>
-                                <input type="text" name="age" required/>
+                                <input type="text" name="age" required onkeypress="lockCharKeyHandler(event)"/>
                             </div>
-                            <div class="input_field_cont">
+                            <div class="input_field_cont" id="phone-cont">
                                 <label>phone number</label>
-                                <input type="text" name="phone_number" required/>
+                                <input type="text" name="phone_number" required onkeypress="lockCharKeyHandler(event)"/>
                             </div>
                             <div class="input_field_cont">
                                 <label>username</label>
@@ -55,7 +55,13 @@
                             </div>
                             <div class="input_field_cont">
                                 <label>password</label>
-                                <input type="text" name="password" required/>
+                                <input type="text" name="password" required onkeypress="passwordValidationHandler(event)"/>
+                                <ul class="">
+                                    <li>a minimum of 1 lower case letter [a-z]</li>
+                                    <li>a minimum of 1 upper case letter [A-Z]</li>
+                                    <li>a minimum of 1 numeric character [0-9]</li>
+                                    <li>1 special character: ~`!@#$%^&amp;*()-_+={}[]|\;:&quot;&lt;&gt;,./?</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
