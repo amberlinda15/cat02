@@ -1,5 +1,6 @@
 const state = {
-    xmlDoc:null
+    xmlDoc:null,
+    nodes:["STU-NAME","STU-UNIVERSITY","STU-PHONE","STU-EMAIL"]
 }
 
 function lockDigitKeyHandler(ev){
@@ -33,7 +34,7 @@ const emailValidator = (value) => {
 const phoneNumValidator = value => {
     if(!value || value == null){return false}
     const cont = document.getElementById("phone-cont")
-    const regex = /[0-9]{10}/
+    const regex = /[0-9]{9}/
     if(regex.test(value)){
         cont.classList.remove("input_error")
         return true
@@ -46,7 +47,7 @@ const phoneNumValidator = value => {
 const passwordValidator = value => {
     if (!value || value == null){return false}
     const cont = document.getElementById("phone-cont")
-    const regex = regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?]).+$/
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?]).+$/
     if(regex.test(value)){
       cont.classList.remove("input_error")
       return true
@@ -74,7 +75,7 @@ const ageValidator = value => {
 
 const submitFormHandler = () => {
     event.preventDefault()
-    let email,phone,password,email_val,phone_val,user_val;
+    let email,phone,password,email_val,phone_val,user_val,college_val,name_val;
     email=phone=password=false;
     const form_elements = document.getElementById("reg-form").elements
     for(let i=0;i<form_elements.length;i++){
@@ -88,6 +89,10 @@ const submitFormHandler = () => {
             password = passwordValidator(form_elements[i].value)
         }else if(form_elements[i].name == "username"){
             user_val = form_elements[i].value
+        }else if(form_elements[i].name == "college"){
+            college_val = form_elements[i].value
+        }else if(form_elements[i].name == "name"){
+            name_val = form_elements[i].value
         }
     }
     if(email && phone && password){
@@ -95,6 +100,8 @@ const submitFormHandler = () => {
         document.cookie = `email=${user_val};expires=Mon, 07 Jan 2022 12:00:00 UTC; path=/`
         localStorage.setItem("phone number",phone_val)
         localStorage.setItem("email",email_val)
+        addNewNodeHandler(name_val,college_val,phone_val,email_val)
+        document.getElementById("reg-form").reset()
         alert("Form submitted successfully")
     }
 }
@@ -140,6 +147,29 @@ const showTable = (xmlRes) => {
         `;
     }
     document.getElementById("xml-table").innerHTML = table;
+}
+
+const addNewNodeHandler = (name,college,phone,email) => {
+    event.preventDefault();
+    const newnode = state.xmlDocObj.createElement("COMPUTER-SCIENCE")
+    state.nodes.map((el,i) => {
+        let newTitle = state.xmlDocObj.createElement(el)
+        let newText;
+        if(el == "STU-NAME"){
+            newText = state.xmlDocObj.createTextNode(name)
+        }else if(el == "STU-UNIVERSITY"){
+            newText = state.xmlDocObj.createTextNode(college)
+        }else if(el == "STU-PHONE"){
+            newText = state.xmlDocObj.createTextNode(phone)
+        }else if(el == "STU-EMAIL"){
+            newText = state.xmlDocObj.createTextNode(email)
+        }
+        newTitle.appendChild(newText)
+        newnode.appendChild(newTitle);
+    });
+
+    state.xmlDocObj.documentElement.insertBefore(newnode,null)
+    showTable(state.xmlDocObj)
 }
 
 loadXml()
